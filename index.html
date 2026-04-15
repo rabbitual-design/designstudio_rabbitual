@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rabbitual — 디자인 스튜디오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#3B8BF5;
+  --blue-h:#2270D8;
+  --bg:#fff;
+  --bg-band:#F2F8FE;
+  --text:#1a1a1a;
+  --sub:#555;
+  --muted:#999;
+  --border:#E2E2E2;
+  --kakao:#FEE500;
+  --kakao-t:#3A1D1D;
+  --nav-h:68px;
+  --pad:112px;
+  --r:14px;
+  --pill:999px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  font-size:20px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  height:var(--nav-h);
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:0.5px solid var(--border);
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:0 52px;
+  z-index:1000;
+}
+/* Logo – left slot */
+.nav-logo{
+  justify-self:start;
+  display:flex;align-items:center;
+  height:28px;
+  text-decoration:none;cursor:pointer;
+}
+.nav-logo img{height:100%;width:auto;object-fit:contain;display:block;}
+.nav-logo-fb{
+  font-family:'DM Sans',sans-serif;
+  font-size:22px;font-weight:600;
+  color:var(--blue);letter-spacing:-.4px;
+}
+/* Menu – center slot */
+.nav-menu{
+  display:flex;align-items:center;
+  gap:44px;list-style:none;
+  justify-self:center;
+}
+.nav-menu a{
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;font-weight:400;
+  color:var(--sub);text-decoration:none;
+  transition:color .2s;
+}
+.nav-menu a:hover{color:var(--text);}
+/* Spacer – right slot (mirrors logo for true center) */
+.nav-right{justify-self:end;}
+
+/* Dropdown */
+.nav-dd{position:relative;}
+.nav-dd>a{display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
+.chev{
+  width:11px;height:11px;
+  color:var(--muted);
+  transition:transform .22s,color .2s;
+}
+.nav-dd.open>a{color:var(--blue)!important;}
+.nav-dd.open .chev{transform:rotate(180deg);color:var(--blue);}
+.dd{
+  position:absolute;
+  top:calc(100% + 14px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:#fff;
+  border:0.5px solid var(--border);
+  border-radius:var(--r);
+  box-shadow:0 8px 28px rgba(0,0,0,.08);
+  min-width:168px;overflow:hidden;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .2s,transform .2s;
+}
+.nav-dd.open .dd{
+  opacity:1;visibility:visible;pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+.dd a{
+  display:block;padding:11px 20px;
+  font-size:14px!important;color:var(--sub)!important;
+  border-bottom:0.5px solid #f2f2f2;
+  transition:background .15s;
+}
+.dd a:last-child{border-bottom:none;}
+.dd a:hover{background:var(--bg-band);color:var(--blue)!important;}
+
+/* ─── HERO ─── */
+#hero{
+  padding-top:calc(var(--nav-h) + 100px);
+  padding-bottom:100px;
+  padding-left:80px;padding-right:80px;
+  max-width:1160px;margin:0 auto;
+  display:flex;align-items:center;
+  justify-content:space-between;gap:60px;
+}
+.hero-text{flex:1 1 auto;}
+.hero-text h1{
+  font-size:44px;font-weight:700;
+  line-height:1.5;letter-spacing:-.6px;
+  margin-bottom:28px;word-break:keep-all;
+}
+.hero-text p{
+  font-size:22px;color:#000;
+  line-height:2;word-break:keep-all;
+}
+/* Hero image placeholder */
+.hero-img{
+  flex:0 0 300px;width:300px;height:280px;
+  border-radius:20px;overflow:hidden;
+  background:#F0F0EE;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.hero-img img{
+  width:100%;height:100%;
+  object-fit:contain;display:block;
+  position:absolute;inset:0;
+}
+.hero-ph{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:var(--muted);font-size:13px;text-align:center;
+}
+.hero-ph svg{width:36px;height:36px;opacity:.3;}
+
+/* ─── VALUE BAND ─── */
+#value{background:var(--bg-band);padding:80px 80px;}
+.value-inner{max-width:1080px;margin:0 auto;text-align:center;}
+.value-inner h2{
+  font-size:40px;font-weight:700;
+  letter-spacing:-.4px;margin-bottom:56px;word-break:keep-all;
+}
+.value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;}
+.value-card h3{font-size:30px;font-weight:600;color:var(--blue);margin-bottom:14px;}
+.value-card p{font-size:20px;color:var(--sub);line-height:1.9;word-break:keep-all;}
+
+/* ─── PORTFOLIO ─── */
+#portfolio{padding:var(--pad) 80px;max-width:1160px;margin:0 auto;}
+.p-grid{
+  display:grid;
+  grid-template-columns:1.45fr 1fr;
+  grid-template-rows:auto auto;
+  gap:14px;margin-bottom:40px;
+}
+.p-item{
+  background:#E4E4E2;border-radius:var(--r);
+  overflow:hidden;position:relative;
+  cursor:pointer;transition:transform .25s;
+}
+.p-item:hover{transform:scale(1.012);}
+/* 3:4 portrait ratio */
+.p-item.large{grid-row:1 / span 2;aspect-ratio:3/4;}
+.p-item.small{aspect-ratio:3/4;}
+.p-item img{
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  position:absolute;inset:0;
+}
+.p-ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  color:var(--muted);font-size:13px;
+}
+.p-ph svg{width:32px;height:32px;opacity:.3;}
+.p-label{
+  position:absolute;bottom:16px;left:16px;
+  font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.9);
+  background:rgba(0,0,0,.3);
+  padding:4px 12px;border-radius:var(--pill);
+  backdrop-filter:blur(4px);
+  opacity:0;transition:opacity .25s;
+}
+.p-item:hover .p-label{opacity:1;}
+.p-more{display:flex;justify-content:center;}
+.btn-more{
+  display:inline-block;
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:13px 52px;
+  border-radius:var(--pill);
+  border:0.5px solid var(--blue);
+  color:var(--blue);background:transparent;
+  cursor:pointer;text-decoration:none;
+  transition:background .22s,color .22s;
+}
+.btn-more:hover{background:var(--blue);color:#fff;}
+
+/* ─── PROCESS ─── */
+#process{padding:var(--pad) 80px;text-align:center;}
+#process h2{
+  font-size:40px;font-weight:700;
+  margin-bottom:60px;letter-spacing:-.3px;
+}
+.steps{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:40px;}
+.step{
+  width:300px;height:300px;border-radius:50%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:#fff;padding:22px;text-align:center;
+  margin:-10px;position:relative;
+  transition:transform .22s;cursor:default;
+}
+.step:hover{transform:scale(1.06) translateY(-4px);z-index:2;}
+.step:nth-child(1){background:#7ECBE8;}
+.step:nth-child(2){background:#55B3D9;}
+.step:nth-child(3){background:#3B8BF5;}
+.step:nth-child(4){background:#2063C9;}
+.step-num{font-size:26px;font-weight:500;letter-spacing:.1em;opacity:.82;margin-bottom:7px;font-family:'DM Sans',sans-serif;}
+.step-title{font-size:26px;font-weight:600;line-height:1.5;word-break:keep-all;}
+.process-note{font-size:25px;color:#000; margin-top: 100px;}
+
+/* ─── CTA ─── */
+#cta{
+  background:#EEF3FB;
+  padding:96px 80px;text-align:center;
+  position:relative;overflow:hidden;
+}
+#cta::before{
+  content:'';position:absolute;
+  width:480px;height:480px;border-radius:50%;
+  background:rgba(59,139,245,.07);
+  top:-160px;left:-120px;pointer-events:none;
+}
+#cta::after{
+  content:'';position:absolute;
+  width:360px;height:360px;border-radius:50%;
+  background:rgba(59,139,245,.05);
+  bottom:-100px;right:-80px;pointer-events:none;
+}
+.cta-in{max-width:700px;margin:0 auto;position:relative;z-index:1;}
+.cta-tag{
+  display:inline-block;
+  font-family:'DM Sans',sans-serif;
+  font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--blue);background:rgba(59,139,245,.11);
+  border-radius:var(--pill);padding:5px 18px;margin-bottom:26px;
+}
+#cta h2{
+  font-size:34px;font-weight:700;
+  letter-spacing:-.5px;line-height:1.35;
+  margin-bottom:16px;word-break:keep-all;
+}
+.cta-sub{font-size:20px;color:var(--sub);margin-bottom:52px;line-height:1.9;word-break:keep-all;}
+.cta-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.cta-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:15px 30px;border-radius:var(--pill);
+  font-size:16px;font-weight:600;
+  cursor:pointer;text-decoration:none;border:none;
+  transition:transform .18s,box-shadow .18s,background .18s;
+  white-space:nowrap;
+}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);}
+.cta-btn:active{transform:translateY(0);}
+.cta-btn.kakao{background:var(--kakao);color:var(--kakao-t);}
+.cta-btn.kakao:hover{background:#fcd900;}
+.cta-btn.email{background:var(--blue);color:#fff;}
+.cta-btn.email:hover{background:var(--blue-h);}
+.cta-btn.insta{background:#fff;color:#C13584;border:0.5px solid #e0e0e0;}
+.cta-btn.insta:hover{background:#fff0f7;}
+.btn-icon{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.btn-icon svg{width:20px;height:20px;}
+.cta-note{margin-top:28px;font-size:15px;color:var(--muted);}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--text);
+  color:rgba(255,255,255,.45);
+  padding:32px 52px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:13px;font-family:'DM Sans',sans-serif;
+}
+.ft-logo{height:22px;display:flex;align-items:center;}
+.ft-logo img{height:100%;width:auto;object-fit:contain;filter:brightness(0) invert(1);opacity:.7;}
+.ft-logo-fb{font-size:17px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:-.3px;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <!--
+    로고 이미지 교체 방법:
+    아래 img 태그의 src="" 에 로고 파일 경로를 입력하세요
+    예: src="logo.png"  또는  src="assets/rabbitual-logo.svg"
+  -->
+  <a href="#" class="nav-logo">
+    <img src="" alt="Rabbitual" id="logoImg"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline';"
+      onload="this.nextElementSibling.style.display='none';">
+    <span class="nav-logo-fb" id="logoFb">Rabbitual</span>
+  </a>
+
+  <ul class="nav-menu">
+    <li><a href="#hero">About</a></li>
+    <li class="nav-dd" id="ddMenu">
+      <a href="#portfolio" onclick="toggleDd(event)">
+        Portfolio
+        <svg class="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M2 4l4 4 4-4"/>
+        </svg>
+      </a>
+      <div class="dd">
+        <a href="#portfolio">브랜드 디자인</a>
+        <a href="#portfolio">로고 &amp; 아이덴티티</a>
+        <a href="#portfolio">콘텐츠 디자인</a>
+        <a href="#portfolio">패키지 디자인</a>
+      </div>
+    </li>
+    <li><a href="#process">Service</a></li>
+    <li><a href="#cta">Contact</a></li>
+  </ul>
+
+  <div class="nav-right"></div>
+</nav>
+
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <h1>디자인이 아닌,<br>'선택받는 이유'를 만듭니다</h1>
+    <p>
+      고객이 멈추고, 읽고, 구매하게 만드는 콘텐츠를 설계합니다<br>
+      브랜드의 색을 찾지 못해 헤매는 문제를 해결합니다<br>
+      적은 비용으로도 확실한 인상을 남기는 결과를 만듭니다<br>
+      초기 브랜드의 부족한 디자인을 대신합니다
+    </p>
+  </div>
+
+  <!--
+    히어로 이미지 교체 방법:
+    아래 img 태그의 src="" 에 PNG 파일 경로를 입력하세요
+    예: src="hero-shapes.png"
+    이미지가 없을 때는 회색 플레이스홀더가 표시됩니다
+  -->
+  <div class="hero-img">
+    <img src="" alt="Rabbitual 브랜드 이미지" id="heroImg"
+      onerror="this.style.display='none';document.getElementById('heroPh').style.display='flex';"
+      onload="document.getElementById('heroPh').style.display='none';">
+    <div class="hero-ph" id="heroPh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <path d="M21 15l-5-5L5 21"/>
+      </svg>
+      <span>PNG 이미지를 넣어주세요<br><small style="font-size:11px;opacity:.6;">src="" 에 경로 입력</small></span>
+    </div>
+  </div>
+</section>
+
+
+<!-- VALUE -->
+<section id="value">
+  <div class="value-inner">
+    <h2>브랜드의 첫인상을 바꾸면, 매출이 달라집니다.</h2>
+    <div class="value-grid">
+      <div class="value-card">
+        <h3>방향 설계</h3>
+        <p>브랜드의 방향성을 명확하게 정의하여<br>고객이 한눈에 이해할 수 있도록 설계합니다.</p>
+      </div>
+      <div class="value-card">
+        <h3>비주얼 완성</h3>
+        <p>적은 리소스에서도 신뢰감 있고<br>충분히 설득력 있는 비주얼을 완성합니다.</p>
+      </div>
+      <div class="value-card">
+        <h3>무드 구축</h3>
+        <p>브랜드를 기억하게 만드는<br>일관된 이미지를 디자인합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="p-grid">
+
+    <!--
+      포트폴리오 이미지 교체:
+      각 .p-item 안의 img src="" 에 이미지 경로를 입력하세요
+    -->
+
+    <!-- 왼쪽 큰 카드 (3:4 세로비율, 2행 span) -->
+    <div class="p-item large">
+      <img src="" alt="포트폴리오 1"
+        onerror="this.style.display='none';"
+        onload="this.previousElementSibling.style.display='none';">
+      <div class="p-ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span>이미지 1</span>
+      </div>
+      <span class="p-label">브랜드 아이덴티티</span>
+    </div>
+
+    <!-- 오른쪽 위 카드 (3:4) -->
+    <div class="p-item small">
+      <img src="" alt="포트폴리오 2"
+        onerror="this.style.display='none';">
+      <div class="p-ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span>이미지 2</span>
+      </div>
+      <span class="p-label">로고 디자인</span>
+    </div>
+
+    <!-- 오른쪽 아래 카드 (3:4) -->
+    <div class="p-item small">
+      <img src="" alt="포트폴리오 3"
+        onerror="this.style.display='none';">
+      <div class="p-ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span>이미지 3</span>
+      </div>
+      <span class="p-label">콘텐츠 디자인</span>
+    </div>
+
+  </div>
+  <div class="p-more"><a href="#" class="btn-more">MORE</a></div>
+</section>
+
+
+<!-- PROCESS -->
+<section id="process">
+  <h2>작업 프로세스</h2>
+  <div class="steps">
+    <div class="step"><span class="step-num">STEP 1</span><span class="step-title">상담 및<br>견적 안내</span></div>
+    <div class="step"><span class="step-num">STEP 2</span><span class="step-title">기획안 및<br>레퍼런스 확인</span></div>
+    <div class="step"><span class="step-num">STEP 3</span><span class="step-title">1차 시안 전달 및<br>피드백</span></div>
+    <div class="step"><span class="step-num">STEP 4</span><span class="step-title">최종 시안 전달 및<br>프로젝트 마감</span></div>
+  </div>
+  <p class="process-note">투명하고 원활한 소통을 위해 순차적 단계로 프로젝트를 진행합니다.</p>
+</section>
+
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-in">
+    <span class="cta-tag">CONTACT</span>
+    <h2>지금 바로 브랜드를<br>바꿔볼 준비가 되셨나요?</h2>
+    <p class="cta-sub">
+      초기 브랜드부터 리브랜딩까지,<br>
+      부담 없이 먼저 문의주세요. 빠르게 답변드립니다.
+    </p>
+    <div class="cta-btns">
+
+      <!-- 카카오 오픈채팅 링크 교체: href="https://open.kakao.com/o/..." -->
+      <a href="https://open.kakao.com/o/YOUR_LINK" target="_blank" class="cta-btn kakao">
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3C6.477 3 2 6.72 2 11.32c0 2.94 1.87 5.52 4.7 7.01l-.88 3.27a.3.3 0 0 0 .45.33l3.83-2.54A12.3 12.3 0 0 0 12 19.64c5.523 0 10-3.72 10-8.32S17.523 3 12 3z"/>
+          </svg>
+        </span>
+        카카오톡으로 문의하기
+      </a>
+
+      <!-- 이메일 교체: href="mailto:your@email.com" -->
+      <a href="mailto:hello@rabbitual.com" class="cta-btn email">
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <polyline points="2,4 12,13 22,4"/>
+          </svg>
+        </span>
+        메일로 문의하기
+      </a>
+
+      <!-- 인스타그램 링크 교체: href="https://instagram.com/your_id" -->
+      <a href="https://instagram.com/rabbitual" target="_blank" class="cta-btn insta">
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>
+        인스타그램 DM
+      </a>
+
+    </div>
+    <p class="cta-note">보통 1영업일 이내에 답변드립니다 · 견적 문의도 환영합니다</p>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">
+    <img src="" alt="Rabbitual"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+    <span class="ft-logo-fb">Rabbitual</span>
+  </div>
+  <span>© 2025 Rabbitual Studio. All rights reserved.</span>
+</footer>
+
+
+<script>
+function toggleDd(e){
+  e.preventDefault();
+  document.getElementById('ddMenu').classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  const m=document.getElementById('ddMenu');
+  if(m&&!m.contains(e.target)) m.classList.remove('open');
+});
+
+/* Scroll highlight */
+const secs=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY+80;
+  secs.forEach(s=>{
+    const l=document.querySelector('nav a[href="#'+s.id+'"]');
+    if(l) l.style.color=(y>=s.offsetTop&&y<s.offsetTop+s.offsetHeight)?'var(--blue)':'';
+  });
+});
+
+/* Show placeholder when img src empty */
+window.addEventListener('load',()=>{
+  const hi=document.getElementById('heroImg');
+  if(!hi||!hi.src||hi.naturalWidth===0){
+    if(hi) hi.style.display='none';
+    const ph=document.getElementById('heroPh');
+    if(ph) ph.style.display='flex';
+  }
+  const li=document.getElementById('logoImg');
+  if(!li||!li.src||li.naturalWidth===0){
+    if(li) li.style.display='none';
+    const fb=document.getElementById('logoFb');
+    if(fb) fb.style.display='inline';
+  }
+});
+</script>
+</body>
+</html>
